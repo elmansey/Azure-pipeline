@@ -1,0 +1,21 @@
+trigger:
+  branches:
+    include:
+      - master
+stages:
+- stage: Build
+  displayName: 'Build Docker Image'
+  jobs:
+  - job: Build
+    displayName: 'Build'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Docker@2
+      displayName: 'Build and Push'
+      inputs:
+        command: buildAndPush
+        containerRegistry: 'dockerhub-connection'
+        repository: 'elmansey/app-simple'
+        tags: 'latest'
+        Dockerfile: '**/Dockerfile'
