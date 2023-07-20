@@ -2,6 +2,12 @@ trigger:
   branches:
     include:
       - master
+
+variables:
+   IMAGE_NAME: simple-app
+   ACCOUNT_NAME: elmansey
+
+
 stages:
 - stage: Build
   displayName: 'Build Docker Image'
@@ -10,13 +16,8 @@ stages:
     displayName: 'Build'
     pool:
       vmImage: 'ubuntu-latest'
+
     steps:
-    - task: Docker@2
-      displayName: 'Build and Push'
-      inputs:
-        containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: 'Docker Hub'
-        command: buildAndPush
-        repository: 'elmansey/app-simple'
-        tags: 'latest'
-        Dockerfile: '**/Dockerfile'
+      - script: |
+          docker build -t $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId) . 
+        displayName: 'build image'
