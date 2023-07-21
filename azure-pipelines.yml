@@ -3,10 +3,18 @@ trigger:
     include:
       - master
 
+
+parameters:
+  - name: DOCKERHYB_PASSWORD_VALUE
+    type: string
+    default: ''
+
+
 variables:
    IMAGE_NAME: simple-app
    ACCOUNT_NAME: elmansey
-
+   DOCKERHUB_USERNAME: elmansey
+   DOCKERHYB_PASSWORD: ${{ parameters.DOCKERHYB_PASSWORD_VALUE }}
 
 stages:
 - stage: Build
@@ -21,3 +29,7 @@ stages:
       - script: |
           docker build -t $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId) . 
         displayName: 'build image'
+      - script: |
+          docker login -u $(DOCKERHUB_USERNAME) -p $(DOCKERHYB_PASSWORD)
+          docker push $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId)
+        displayName: 'push image'
