@@ -16,30 +16,26 @@ variables:
    DOCKERHUB_USERNAME: elmansey
    DOCKERHYB_PASSWORD: ${{ parameters.DOCKERHYB_PASSWORD_VALUE }}
 
-stages:
-- stage: Build
-  displayName: 'Build Docker Image'
-  jobs:
-  - job: Build
-    displayName: 'Build'
-    pool:
-      vmImage: 'ubuntu-latest'
 
-    steps:
-      - script: |
-          docker build -t $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId) . 
-        displayName: 'build image'
-      - script: |
-          docker login -u $(DOCKERHUB_USERNAME) -p $(DOCKERHYB_PASSWORD)
-          docker push $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId)
-        displayName: 'push image'
+stages:
+  - stage: deploy
+    jobs:
+    - deployment: Process
+      environment: Site Engineering Approval
+      pool:
+        vmImage: Ubuntu-20.04
+        displayName: test
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - script: |
+                  docker build -t $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId) . 
+                displayName: 'build image'
+              - script: |
+                  docker login -u $(DOCKERHUB_USERNAME) -p $(DOCKERHYB_PASSWORD)
+                  docker push $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId)
+                displayName: 'push image'
         
-- stage: Approval
-  jobs:
-  - job: ManualIntervention
-    steps:
-    - task: ManualIntervention@1
-      displayName: 'Manual Intervention'
-      inputs:
-        instructions: 'Please review the build and approve or reject it.'
+
    
