@@ -20,24 +20,25 @@ variables:
 stages:
 - stage: build
     jobs:
-        steps:
-          - script: |
-              docker build -t $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId) . 
-            displayName: 'build image'
+      steps:
+        - script: |
+            docker build -t $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId) . 
+          displayName: 'build image'
+
 
                 
-  - stage: deploy
-    jobs:
-    - deployment: Process
-      environment: 'Site Engineering Approval'
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-              - script: |
-                  docker login -u $(DOCKERHUB_USERNAME) -p $(DOCKERHYB_PASSWORD)
-                  docker push $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId)
-                displayName: 'push image'
-        
+- stage: deploy
+  jobs:
+  - deployment: Process
+    environment: 'Site Engineering Approval'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - script: |
+                docker login -u $(DOCKERHUB_USERNAME) -p $(DOCKERHYB_PASSWORD)
+                docker push $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId)
+              displayName: 'push image'
+      
 
    
