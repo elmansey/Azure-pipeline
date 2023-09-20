@@ -5,16 +5,13 @@ trigger:
 
 
 parameters:
-  - name: DOCKERHYB_PASSWORD_VALUE
+  - name: name
     type: string
     default: ''
 
 
 variables:
-   IMAGE_NAME: simple-app
-   ACCOUNT_NAME: elmansey
-   DOCKERHUB_USERNAME: elmansey
-   DOCKERHYB_PASSWORD: ${{ parameters.DOCKERHYB_PASSWORD_VALUE }}
+   name: ${{ parameters.name }}
 
 
 stages:
@@ -27,7 +24,7 @@ stages:
         deploy:
           steps:
           - script: |
-              docker build -t $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId) . 
+              echo  'hello $(name)'
             displayName: 'build image'
               
 - stage: deploy
