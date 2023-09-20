@@ -31,7 +31,8 @@ stages:
             displayName: 'build image'
               
 - stage: deploy
-  dependsOn: build
+  dependsOn: 
+  - build
   jobs:
   - job:
       steps:
