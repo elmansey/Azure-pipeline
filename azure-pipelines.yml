@@ -31,14 +31,13 @@ stages:
             displayName: 'build image'
               
 - stage: deploy
-  dependsOn: 
-  - build
+  dependsOn: build
   jobs:
   - job:
       steps:
-        - script: |
-            echo 'ok that is it'
-          displayName: 'push image'
+      - script: |
+          echo 'ok that is it'
+        displayName: 'push image'
       
 
    
