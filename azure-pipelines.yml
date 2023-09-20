@@ -33,11 +33,10 @@ stages:
 - stage: deploy
   dependsOn: build
   jobs:
-  - job:
-      steps:
-      - script: |
-          echo 'ok that is it'
-        displayName: 'push image'
+    steps:
+    - script: |
+        echo 'ok that is it'
+      displayName: 'push image'
       
 
    
