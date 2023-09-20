@@ -33,6 +33,7 @@ stages:
 - stage: deploy
   dependsOn: build
   jobs:
+  - job:
     steps:
     - script: |
         echo 'ok that is it'
