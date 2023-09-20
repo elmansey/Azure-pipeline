@@ -20,8 +20,8 @@ variables:
 stages:
 - stage: build
   jobs:
-    job:
-      steps:
+  - job:
+    steps:
         - script: |
             docker build -t $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId) . 
           displayName: 'build image'
