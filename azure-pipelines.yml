@@ -18,6 +18,14 @@ variables:
 
 
 stages:
+- stage: build
+    jobs:
+        steps:
+          - script: |
+              docker build -t $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId) . 
+            displayName: 'build image'
+
+                
   - stage: deploy
     jobs:
     - deployment: Process
@@ -26,9 +34,6 @@ stages:
         runOnce:
           deploy:
             steps:
-              - script: |
-                  docker build -t $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId) . 
-                displayName: 'build image'
               - script: |
                   docker login -u $(DOCKERHUB_USERNAME) -p $(DOCKERHYB_PASSWORD)
                   docker push $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId)
