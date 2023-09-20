@@ -34,14 +34,15 @@ stages:
           docker push $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId)
         displayName: 'push image'
 
-- stage: Approval
-  jobs:
-  - job: ManualIntervention
-    displayName: 'Manual Intervention'
-    steps:
-    - task: ManualIntervention@6
+- job: ManualApproval
+  steps:
+    - task: ManualIntervention@0
+      displayName: 'Manual Approval'
       inputs:
-        instructions: 'Please review the build and approve or reject it.'
+        instructions: 'Please review and approve this pipeline run.'
+
+
+
 
 
 
