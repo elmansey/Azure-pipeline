@@ -21,13 +21,9 @@ stages:
   - stage: deploy
     jobs:
     - deployment: Process
-      environment: Site Engineering Approval
-      pool:
-        vmImage: Ubuntu-20.04
-        displayName: test
+      environment: 'Site Engineering Approval'
       strategy:
         runOnce:
-          deploy:
             steps:
               - script: |
                   docker build -t $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId) . 
