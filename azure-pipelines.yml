@@ -40,7 +40,7 @@ stages:
   - job: ApprovalJob
     displayName: Approval Job
     steps:
-    - task: ManualIntervention@1
+    - task: ManualIntervention
       inputs:
         instructions: 'Please review and approve the pipeline run.'
 
