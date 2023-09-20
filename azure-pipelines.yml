@@ -33,3 +33,15 @@ stages:
           docker login -u $(DOCKERHUB_USERNAME) -p $(DOCKERHYB_PASSWORD)
           docker push $(ACCOUNT_NAME)/$(IMAGE_NAME):$(Build.BuildId)
         displayName: 'push image'
+        
+- stage: ApprovalStage
+  displayName: Approval Stage
+  jobs:
+  - job: ApprovalJob
+    displayName: Approval Job
+    steps:
+    - task: ManualIntervention@1
+      inputs:
+        instructions: 'Please review and approve the pipeline run.'
+
+
