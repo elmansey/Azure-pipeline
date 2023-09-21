@@ -34,9 +34,11 @@ stages:
         deploy:
           steps:
           - script: |
-              echo "Looping through myMapVariable"
-              ${{ each key, value in variables.myMapVariable }}:
-                echo "Key: ${{ key }}, Value: ${{ value }}"
+             echo "Looping through myMapVariable"
+              for key in ${{ each key in variables.myMapVariable }}; do
+                value=${{ variables.myMapVariable[key] }}
+                echo "Key: $key, Value: $value"
+              done
             displayName: 'Loop through myMapVariable'
               
 - stage: deploy
