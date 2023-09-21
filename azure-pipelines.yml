@@ -3,44 +3,33 @@ trigger:
     include:
       - master
 
-# parameters:
-# - name: sslCerts
-#   type: object 
-#   default:
-#     Development:
-#       sslCertificate: service1-dev.p12
-#       sslCertificateKey: service1-dev
-#     Sandbox:
-#       sslCertificate: service1-sbxdev.p12
-#       sslCertificateKey: service-sbxdev-key
-
-parameters:
-- name: sslCerts
-  type: object 
-  default:
-    Development:
-      sandbox: service1-dev.p12
-      prod: service1-dev
-      non-prod: sdsdsfsf
-
 
 
 
 stages:
-- stage: build
+- stage: approval
   jobs:
   - deployment: Process
     environment: 'Approval'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - script: |
-             echo $(parameters.Development['sandbox'])
-            displayName: 'Loop through myMapVariable'
+    
+
+- stage: build
+  dependsOn: 
+  - approval
+  condition: succeeded('approval')
+  jobs:
+  - job:
+    steps:
+    - script: |
+        echo hello
+      displayName: 'Loop through myMapVariable'
               
+
 - stage: deploy
-  dependsOn: build
+  dependsOn: 
+  - approval
+  - build
+  condition: and(succeeded('build'),succeeded('approval'))
   jobs:
   - job:
     steps:
@@ -48,5 +37,15 @@ stages:
         echo 'ok that is it'
       displayName: 'push image'
       
-
-   
+- stage: check
+  dependsOn: 
+  - approval
+  - build
+  condition: and(succeeded('deploy'),succeeded('approval'))
+  jobs:
+  - job:
+    steps:
+    - script: |
+        echo 'ok that is it'
+      displayName: 'push image'
+- 
