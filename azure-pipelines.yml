@@ -40,7 +40,7 @@ stages:
 - stage: check
   dependsOn: 
   - approval
-  - build
+  - deploy
   condition: and(succeeded('deploy'),succeeded('approval'))
   jobs:
   - job:
