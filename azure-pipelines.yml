@@ -48,4 +48,3 @@ stages:
     - script: |
         echo 'ok that is it'
       displayName: 'push image'
-- 
