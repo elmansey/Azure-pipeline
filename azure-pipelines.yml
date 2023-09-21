@@ -14,12 +14,14 @@ trigger:
 #       sslCertificate: service1-sbxdev.p12
 #       sslCertificateKey: service-sbxdev-key
 
-variables:
-  myMapVariable:
-    sandbox: value1
-    prod: value2
-    non-prod: value3
-
+parameters:
+- name: sslCerts
+  type: object 
+  default:
+    Development:
+      sandbox: service1-dev.p12
+      prod: service1-dev
+      non-prod: sdsdsfsf
 
 
 
@@ -34,7 +36,7 @@ stages:
         deploy:
           steps:
           - script: |
-             echo $(variables.myMapVariable['sandbox'])
+             echo $(parameters.Development['sandbox'])
             displayName: 'Loop through myMapVariable'
               
 - stage: deploy
