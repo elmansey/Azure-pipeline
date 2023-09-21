@@ -3,15 +3,25 @@ trigger:
     include:
       - master
 
-
 parameters:
-  - name: name
-    type: string
-    default: ''
-
+- name: sslCerts
+  type: object 
+  default:
+    Development:
+      sslCertificate: service1-dev.p12
+      sslCertificateKey: service1-dev
+    Sandbox:
+      sslCertificate: service1-sbxdev.p12
+      sslCertificateKey: service-sbxdev-key
 
 variables:
-   name: ${{ parameters.name }}
+  myMapVariable:
+    sandbox: value1
+    prod: value2
+    non-prod: value3
+
+
+
 
 
 stages:
@@ -24,8 +34,10 @@ stages:
         deploy:
           steps:
           - script: |
-              echo  'hello $(name)'
-            displayName: 'build image'
+              echo "Looping through myMapVariable"
+              ${{ each key, value in variables.myMapVariable }}:
+                echo "Key: ${{ key }}, Value: ${{ value }}"
+            displayName: 'Loop through myMapVariable'
               
 - stage: deploy
   dependsOn: build
