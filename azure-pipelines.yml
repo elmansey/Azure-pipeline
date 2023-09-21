@@ -3,16 +3,16 @@ trigger:
     include:
       - master
 
-parameters:
-- name: sslCerts
-  type: object 
-  default:
-    Development:
-      sslCertificate: service1-dev.p12
-      sslCertificateKey: service1-dev
-    Sandbox:
-      sslCertificate: service1-sbxdev.p12
-      sslCertificateKey: service-sbxdev-key
+# parameters:
+# - name: sslCerts
+#   type: object 
+#   default:
+#     Development:
+#       sslCertificate: service1-dev.p12
+#       sslCertificateKey: service1-dev
+#     Sandbox:
+#       sslCertificate: service1-sbxdev.p12
+#       sslCertificateKey: service-sbxdev-key
 
 variables:
   myMapVariable:
